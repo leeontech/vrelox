@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><title>VRELOX - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container auth-container" style="text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h2 style="margin:0;">ADMIN PANEL</h2>
+            <a href="/logout" style="color:var(--gold-primary); font-size:12px;">Logout</a>
+        </div>
+        
+        <form action="/admin/post" method="POST">
+            <div class="form-group"><label>Article Title</label><input type="text" name="title" required></div>
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category">
+                    <option value="Fashion">Fashion</option><option value="Business">Business</option>
+                    <option value="Luxury">Luxury</option><option value="Culture">Culture</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Image URL</label><input type="text" name="imageUrl" placeholder="https://images.unsplash.com/..." required></div>
+            <div class="form-group"><label>Short Description / Subtitle</label><input type="text" name="description" required></div>
+            <div class="form-group"><label>Read Time</label><input type="text" name="readTime" value="5 min read"></div>
+            <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+                <input type="checkbox" name="isHero" value="true" style="width:auto;">
+                <label style="margin:0;">Make this the Cover Story (Hero Section)</label>
+            </div>
+            <button type="submit" class="auth-btn">Publish Article</button>
+        </form>
+    </div>
+</body>
+</html>
