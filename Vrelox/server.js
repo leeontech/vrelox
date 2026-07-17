@@ -49,7 +49,8 @@ app.get('/logout', (req, res) => { req.session.destroy(); res.redirect('/login')
 // --- PANELS LOGIC ---
 
 // 1. Customer Panel (Magazine view)
-app.get('/magazine', isAuth, async (req, res) => {
+// After (Sahi Public Flow)
+app.get('/magazine', async (req, res) => {
     const articles = await Article.find().sort({ createdAt: -1 });
     res.render('magazine', { articles });
 });
