@@ -1,9 +1,10 @@
 const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
-const connectDB = require('./config/db'); // small letters
-const User = require('./models/User');     // small letters
-const Article = require('./models/Article'); // small letters
+const connectDB = require('./config/db.js');
+const User = require('./models/User.js');
+const Article = require('./models/Article.js');
+
 
 const app = express();
 connectDB();
