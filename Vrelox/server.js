@@ -49,7 +49,6 @@ app.get('/logout', (req, res) => { req.session.destroy(); res.redirect('/login')
 // --- PANELS LOGIC ---
 
 // 1. Customer Panel (Magazine view)
-// After (Sahi Public Flow)
 app.get('/magazine', async (req, res) => {
     const articles = await Article.find().sort({ createdAt: -1 });
     res.render('magazine', { articles });
@@ -70,6 +69,6 @@ app.post('/admin/post', isAdmin, async (req, res) => {
 });
 
 // Default redirection fallback
-app.get('*', (req, res) => res.redirect('/login'));
+app.get('*', (req, res) => res.redirect('/magazine'));
 
 app.listen(3000, () => console.log('Vrelox System Active on http://localhost:3000'));
