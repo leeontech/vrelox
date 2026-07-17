@@ -1,57 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>VRELOX Magazine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Inter&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRELOX Magazine</title>
+    <style>
+        /* Base Setup & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: 'Playfair Display', 'Segoe UI', serif;
+            padding-top: 80px;
+        }
+
+        /* Top Navbar Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: rgba(11, 11, 11, 0.95);
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 0 20px;
+        }
+
+        .brand-logo {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        /* 3-Line Hamburger Icon Container */
+        .menu-icon-container {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .menu-icon-container button {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 30px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .menu-icon-container button:hover {
+            color: #ffb703;
+        }
+
+        /* Right to Left Slide Sidebar (75% Screen Width) */
+        .sidebar-panel {
+            position: fixed;
+            top: 0;
+            right: -75%; /* Hidden by default */
+            width: 75%;
+            height: 100%;
+            background-color: #121212;
+            border-left: 1px solid #222222;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+            transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 9999;
+            padding: 30px 25px;
+            box-sizing: border-box;
+        }
+
+        .sidebar-panel.active {
+            right: 0; /* Slides in completely */
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 38px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ffb703;
+        }
+
+        .sidebar-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 22px;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 15px 10px;
+            border-bottom: 1px solid #1a1a1a;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link:hover {
+            background-color: #1a1a1a;
+            color: #ffb703;
+            padding-left: 20px;
+        }
+
+        /* Content Layout */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ffb703;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Articles Grid System */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background: #141414;
+            border: 1px solid #222222;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffb703;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background-color: #222;
+        }
+
+        .article-body {
+            padding: 20px;
+        }
+
+        .article-category {
+            color: #ffb703;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .article-title {
+            font-size: 20px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .article-desc {
+            color: #a0a0a0;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .article-meta {
+            font-size: 12px;
+            color: #666666;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* No Data View */
+        .no-articles {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 18px;
+            font-family: sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <header>
-            <div class="top-bar">
-                <div>⚡</div>
-                <div class="brand-logo"><h1>VRELOX</h1></div>
-                <div><a href="/logout" style="color:var(--text-muted); font-size:12px; text-decoration:none;">Logout</a></div>
-            </div>
-            <div class="nav-categories">
-                <a href="#" class="active">Home</a><a href="#">Fashion</a><a href="#">Business</a><a href="#">Luxury</a>
-            </div>
-        </header>
 
-        <!-- Dynamic Hero Section -->
-        <% const hero = articles.find(a => a.isHero); if(hero) { %>
-            <section class="hero-section" style="background-image: url('<%= hero.imageUrl %>');">
-                <div class="hero-overlay"></div>
-                <div class="hero-content">
-                    <span class="tag"><%= hero.category %></span>
-                    <h2 class="hero-title"><%= hero.title %></h2>
-                    <p style="font-size:12px; color:#c4c4c6;"><%= hero.description %></p>
-                </div>
-            </section>
-        <% } %>
+    <!-- Header Navigation Bar -->
+    <header>
+        <a href="/magazine" class="brand-logo">VRELOX</a>
+        
+        <!-- Hamburger Menu Trigger -->
+        <div class="menu-icon-container">
+            <button onclick="toggleSidebar()">&#9776;</button>
+        </div>
+    </header>
 
-        <!-- Dynamic Latest Stories -->
-        <section>
-            <h3 style="padding:0 16px 10px; font-size:13px; text-transform:uppercase; letter-spacing:1px;">Latest Stories</h3>
-            <div class="stories-scroll">
-                <% articles.filter(a => !a.isHero).forEach(article => { %>
-                    <div class="story-card">
-                        <img src="<%= article.imageUrl %>" alt="">
-                        <div class="story-overlay">
-                            <span class="tag"><%= article.category %></span>
-                            <h4 style="font-size:11px; font-weight:400;"><%= article.title %></h4>
-                            <span style="font-size:8px; color:var(--text-muted);"><%= article.readTime %></span>
+    <!-- 75% Sliding Sidebar Menu -->
+    <div id="rightSidebar" class="sidebar-panel">
+        <div class="sidebar-header">
+            <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        </div>
+        <div class="sidebar-content">
+            <% if (typeof user !== 'undefined' && user) { %>
+                <!-- Visible Only When Logged In -->
+                <a href="/my-account" class="sidebar-link">My Account</a>
+                <a href="/admin" class="sidebar-link">Add Article</a>
+                
+                <% if (user.role === 'admin') { %>
+                    <a href="/admin/manage-articles" class="sidebar-link">View/Edit Articles</a>
+                <% } %>
+                
+                <a href="/logout" class="sidebar-link" style="color: #ff4d4d;">Logout</a>
+            <% } else { %>
+                <!-- Visible To Anonymous Public Guests -->
+                <a href="/register" class="sidebar-link">Register</a>
+                <a href="/login" class="sidebar-link" style="color: #ffb703;">Login</a>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <h2 class="section-title">Latest Stories</h2>
+        
+        <% if (typeof articles !== 'undefined' && articles.length > 0) { %>
+            <div class="articles-grid">
+                <% articles.forEach(article => { %>
+                    <div class="article-card">
+                        <% if(article.imageUrl) { %>
+                            <img src="<%= article.imageUrl %>" alt="<%= article.title %>" class="article-image">
+                        <% } else { %>
+                            <div class="article-image" style="display: flex; align-items: center; justify-content: center; color: #444;">No Image</div>
+                        <% } %>
+                        <div class="article-body">
+                            <span class="article-category"><%= article.category || 'Luxury' %></span>
+                            <h3 class="article-title"><%= article.title %></h3>
+                            <p class="article-desc"><%= article.description ? article.description.substring(0, 120) + '...' : '' %></p>
+                            <div class="article-meta">
+                                ⏱️ <%= article.readTime || '5 mins' %> read
+                            </div>
                         </div>
                     </div>
                 <% }) %>
             </div>
-        </section>
-
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item active">Home</a>
-            <a href="#" class="nav-item">Magazine</a>
-            <a href="#" class="nav-item">Profile</a>
-        </nav>
+        <% } else { %>
+            <div class="no-articles">
+                <p>No luxury articles found in the database. Log in as admin to publish your first story.</p>
+            </div>
+        <% } %>
     </div>
+
+    <!-- Toggle Action Script -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('rightSidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Sidebar ke bahar click karne par auto-close logic
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('rightSidebar');
+            const menuBtn = document.querySelector('.menu-icon-container button');
+            
+            if (!sidebar.contains(event.target) && event.target !== menuBtn && sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+
 </body>
 </html>
